@@ -1,9 +1,67 @@
 import unittest
 
-from textnode import TextNode, TextType
+
+from htmlnode import HTMLNode, LeafNode
+
+
+"""
+import unittest
 from htmlnode import HTMLNode
 
 
+class TestHTMLNode(unittest.TestCase):
+    def test_to_html_props(self):
+        node = HTMLNode(
+            "div",
+            "Hello, world!",
+            None,
+            {"class": "greeting", "href": "https://boot.dev"},
+        )
+        self.assertEqual(
+            node.props_to_html(),
+            ' class="greeting" href="https://boot.dev"',
+        )
+
+    def test_values(self):
+        node = HTMLNode(
+            "div",
+            "I wish I could read",
+        )
+        self.assertEqual(
+            node.tag,
+            "div",
+        )
+        self.assertEqual(
+            node.value,
+            "I wish I could read",
+        )
+        self.assertEqual(
+            node.children,
+            None,
+        )
+        self.assertEqual(
+            node.props,
+            None,
+        )
+
+    def test_repr(self):
+        node = HTMLNode(
+            "p",
+            "What a strange world",
+            None,
+            {"class": "primary"},
+        )
+        self.assertEqual(
+            node.__repr__(),
+            "HTMLNode(p, What a strange world, children: None, {'class': 'primary'})",
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+"""
 """class TestTextNode(unittest.TestCase):
     def test_eq(self):
         node = TextNode("This is a text node", TextType.TEXT)
@@ -33,6 +91,7 @@ from htmlnode import HTMLNode
 
 
 """
+
 class TestHTMLNode(unittest.TestCase):
     
     def test_props_to_html_multiple_attributes(self):
@@ -56,6 +115,28 @@ class TestHTMLNode(unittest.TestCase):
         self.assertIn("value='Text'", repr_str)
         self.assertIn("'class': 'lead'", repr_str)
 
-        
+    
+    # imported LeafNode
+    def test_leaf_to_html_p(self):
+        node = LeafNode("p", "Hello, world!")
+        self.assertEqual(node.to_html(), "<p>Hello, world!</p>")
+
+    def test_leaf_to_html_anchor_with_props(self):
+        node = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+        self.assertEqual(node.to_html(), '<a href="https://www.google.com">Click me!</a>')
+
+    def test_leaf_to_html_no_tag(self):
+        node = LeafNode(None, "Just some text.")
+        self.assertEqual(node.to_html(), "Just some text.")
+
+    def test_leaf_to_html_raises_error_without_value(self):
+        with self.assertRaises(ValueError):
+            LeafNode("p", None)
+
+    def test_leaf_to_html_with_multiple_attributes(self):
+        node = LeafNode("img", "image", {"src": "img.png", "alt": "An image"})
+        self.assertEqual(node.to_html(), '<img src="img.png" alt="An image">image</img>')
+    
+
 if __name__ == "__main__":
     unittest.main()
