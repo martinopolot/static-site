@@ -1,6 +1,6 @@
 # src/htmlnode.py
 
-from textnode import TextType, TextNode
+from textnode import TextType
 
 
 class HTMLNode:
